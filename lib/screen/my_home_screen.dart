@@ -83,6 +83,28 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                 onSend: _sendMessage,
                 messages: messages,
                 messageOptions: MessageOptions(
+                  currentUserContainerColor: Colors.transparent,
+                  currentUserTextColor: Colors.white,
+                  messageTextBuilder: (message, previousMessage, nextMessage) {
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: message.user.id == currentUser.id
+                            ? Colors.blueAccent.shade700
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        message.text ?? '',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: message.user.id == currentUser.id
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
+                    );
+                  },
                   avatarBuilder: (user, onTap, onLongPress) {
                     if (user.id == geminiTypingUser.id) {
                       return Padding(
@@ -116,9 +138,9 @@ class _MyHomeScreenState extends State<MyHomeScreen>
                     }
 
                     if (user.id == geminiUser.id) {
-                      return const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: CircleAvatar(
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: const CircleAvatar(
                           radius: 18,
                           backgroundImage: AssetImage(
                             "assets/icon/gemini_logo.png",
